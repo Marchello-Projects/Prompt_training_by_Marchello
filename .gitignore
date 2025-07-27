@@ -1,0 +1,29 @@
+# Node.js / Python / general
+node_modules/
+__pycache__/
+*.pyc
+.venv
+
+# Environment & config
+.env
+.env.*
+config.json
+config/*
+!config/.gitkeep  # optional: keep empty config folder
+
+# OS-specific
+.DS_Store
+Thumbs.db
+
+# IDEs / editors
+.vscode/
+.idea/
+*.sublime-workspace
+*.sublime-project
+
+# Logs
+*.log
+logs/
+
+# Project
+app/database/data.db
