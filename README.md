@@ -36,15 +36,14 @@ Follow these steps to run the Telegram bot locally:
 ### 1. Clone the repository
 
 ```bash
-git clone https://github.com/yourusername/yourproject.git
-cd yourproject
+git clone https://github.com/Marchello-Projects/Prompt_training_by_Marchello
 ```
 
 ### 2. Create and activate virtual environment (optional but recommended)
 
 ```bash
-python3 -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
+python3 -m venv .venv
+source .venv/bin/activate  # On Windows: .venv\Scripts\activate
 ```
 
 ### 3. Install dependencies
@@ -106,7 +105,7 @@ curl http://localhost:11434/api/generate -d '{
 ### 7. Start the bot
 
 ```bash
-python main.py
+python3 bot.py
 ```
 
 ---
