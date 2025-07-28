@@ -6,6 +6,7 @@ import app.keyboards.startkb as startkb
 
 router = Router()
 
+
 @router.message(CommandStart())
 async def cmd_start(message: Message):
     user_name = message.from_user.first_name
