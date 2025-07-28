@@ -14,7 +14,7 @@ kyiv_tz = pytz.timezone('Europe/Kyiv')
 
 
 def get_history_page(page: int):
-    offset = page * ITEMS_PER_PAGE 
+    offset = page * ITEMS_PER_PAGE
     with sqlite3.connect('app/database/data.db') as conn:
         cursor = conn.cursor()
         cursor.execute(
@@ -33,8 +33,11 @@ def build_history_keyboard(page: int, has_prev: bool, has_next: bool):
         row.append(InlineKeyboardButton(text='⬆️ Top', callback_data='history_page:0'))
     if has_next:
         row.append(InlineKeyboardButton(text='➡️ Next', callback_data=f'history_page:{page+1}'))
+
     export = InlineKeyboardButton(text='📥 Export to Excel', callback_data='export_excel')
-    return InlineKeyboardMarkup(inline_keyboard=[row, [export]])
+    clear = InlineKeyboardButton(text='🗑️ Clear History', callback_data='clear_history')
+
+    return InlineKeyboardMarkup(inline_keyboard=[row, [export, clear]])
 
 
 def export_history_to_excel():
@@ -68,7 +71,7 @@ async def show_history(message: Message):
     text = f'Page {page+1}:\n\n'
     for mode, prompt, created_at in rows:
         created_at = datetime.fromisoformat(created_at).astimezone(kyiv_tz).strftime('%Y-%m-%d %H:%M')
-        text += f'📅 {created_at}\n🎯 Mode: {mode}\n💬 Prompt: {prompt}\n\n'
+        text += f'📅 {created_at}\n🎯 Type: {mode}\n💬 Prompt: {prompt}\n\n'
     with sqlite3.connect('app/database/data.db') as conn:
         cursor = conn.cursor()
         cursor.execute('SELECT COUNT(*) FROM History')
@@ -88,7 +91,7 @@ async def history_page_callback(callback: CallbackQuery):
     text = f'Page {page+1}:\n\n'
     for mode, prompt, created_at in rows:
         created_at = datetime.fromisoformat(created_at).astimezone(kyiv_tz).strftime('%Y-%m-%d %H:%M')
-        text += f'📅 {created_at}\n🎯 Mode: {mode}\n💬 Prompt: {prompt}\n\n'
+        text += f'📅 {created_at}\n🎯 Type: {mode}\n💬 Prompt: {prompt}\n\n'
     with sqlite3.connect('app/database/data.db') as conn:
         cursor = conn.cursor()
         cursor.execute('SELECT COUNT(*) FROM History')
@@ -109,3 +112,14 @@ async def handle_export_excel(callback: CallbackQuery):
     else:
         await callback.message.answer('⚠️ Failed to export.')
     await callback.answer()
+
+
+@router.callback_query(F.data == 'clear_history')
+async def handle_clear_history(callback: CallbackQuery):
+    with sqlite3.connect('app/database/data.db') as conn:
+        cursor = conn.cursor()
+        cursor.execute('DELETE FROM History')
+        cursor.execute('DELETE FROM sqlite_sequence WHERE name="History"')
+        conn.commit()
+    await callback.message.edit_text('🗑️ History cleared.')
+    await callback.answer('Cleared!')

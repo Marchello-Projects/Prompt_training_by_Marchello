@@ -11,18 +11,30 @@ import app.keyboards.startkb as startkb
 
 router = Router()
 
+class ScoreManager:
+    def __init__(self):
+        self.points = 0
+
+    def increment(self, amount=1):
+        self.points += amount
+
+    def get_points(self):
+        return self.points
+    
+score = ScoreManager()
+
 class Prompt(StatesGroup):
     mode = State()
     text = State()
 
 def request_to_mistral(mode: str, text: str):
     templates = {
-        "🧠 Training": (
+        "🧠 Custom prompt": (
             "Analyze this prompt. If there are any shortcomings, explain them in simple words and suggest how it can be improved. "
             'If everything is fine, just say: "The prompt is of good quality, no improvements are needed." '
             "Do not invent shortcomings if there are none. Here is the text for analysis: {text}"
         ),
-        "🖼️ Creation": (
+        "🎨 Creative": (
             "Analyze this creative prompt. Focus on how clearly it inspires imagination, whether it gives enough direction for a creative task, "
             "and whether it's open-ended enough for artistic freedom. If there are any shortcomings, explain them simply and suggest how to improve "
             'the prompt to make it more creative or inspiring. If the prompt is already great, just say: "The prompt is of good quality, no improvements are needed." '
@@ -34,6 +46,13 @@ def request_to_mistral(mode: str, text: str):
             'If the prompt is already good, just say: "The prompt is of good quality, no improvements are needed." '
             "Do not invent flaws if there are none. Here is the text for analysis: {text}"
         ),
+        "📚 Homework": (
+            "Analyze this homework-related prompt. Focus on whether the task is clearly stated, understandable, and doable for a student. "
+            "Check if the instructions are complete, not too vague, and make it clear what is expected. "
+            "If you find any problems, explain them in simple words and suggest how to make the prompt clearer or more helpful for completing the homework. "
+            'If the prompt is already good, just say: "The prompt is of good quality, no improvements are needed." '
+            "Do not invent flaws if there are none. Here is the text for analysis: {text}"
+        )
     }
 
     if mode not in templates:
@@ -66,7 +85,7 @@ def init_db():
 
 @router.message(F.text == "🧠 Prompt training")
 async def prompt_cmd(message: Message, state: FSMContext):
-    await message.answer(text="Select the mode:", reply_markup=promptkb.promptButtons)
+    await message.answer(text="Choose the prompt type:", reply_markup=promptkb.promptButtons)
     await state.set_state(Prompt.mode)
 
 
@@ -74,7 +93,7 @@ async def prompt_cmd(message: Message, state: FSMContext):
 async def handle_text(message: Message, state: FSMContext):
     await state.update_data(mode=message.text)
     await message.answer(
-        text="Formulate the prompt according to the selected mode:",
+        text="Write your prompt based on the selected type:",
         reply_markup=ReplyKeyboardRemove(),
     )
     await state.set_state(Prompt.text)
@@ -91,6 +110,8 @@ async def handle_prompt(message: Message, state: FSMContext):
     result = request_to_mistral(mode, user_text)
     await message.answer(result, reply_markup=backKb.backButton)
     await state.clear()
+
+    score.increment(1)
 
     init_db()
 
