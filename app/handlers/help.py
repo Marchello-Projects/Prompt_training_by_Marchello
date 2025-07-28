@@ -1,11 +1,10 @@
 from aiogram import F, Router
-from aiogram.filters import Command
 from aiogram.types import Message
 
 router = Router()
 
 @router.message(F.text == "❔ Help")
-async def cmd_help(message: Message):
+async def help_cmd(message: Message):
     await message.answer(
         "🆘 *Help Menu*\n\n"
         "Welcome to the AI Prompt Training Bot! 🤖\n"
@@ -15,5 +14,5 @@ async def cmd_help(message: Message):
         "🕒 Prompts training history — View your prompt history: previous prompts, scores, and feedback.\n\n"
         "🏆 Achievements — See your progress: skill level, best prompts, and personal stats.\n\n"
         "❔ Help — Show this help message.\n\n"
-        "💡 Tip: The more detailed and clear your prompt is, the better the AI response will be. Practice makes perfect!"
+        "💡 Tip: The more detailed and clear your prompt is, the better the AI response will be. Practice makes perfect!",
     )

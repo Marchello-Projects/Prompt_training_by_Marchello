@@ -2,10 +2,9 @@ from aiogram import Router
 from aiogram.filters import CommandStart
 from aiogram.types import Message
 
-import app.keyboards.startkb as kb
+import app.keyboards.startkb as startkb
 
 router = Router()
-
 
 @router.message(CommandStart())
 async def cmd_start(message: Message):
@@ -14,5 +13,5 @@ async def cmd_start(message: Message):
         f"""Hi, {user_name}! 🤖 Welcome to Prompt Training Bot!\n
 It’s 2025 — AI is everywhere. But smart results need smart prompts.\n
 Sharpen your skills and become a true Prompt Master! """,
-        reply_markup=kb.main,
+        reply_markup=startkb.main,
     )
