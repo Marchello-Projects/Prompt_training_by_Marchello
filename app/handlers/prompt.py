@@ -1,5 +1,6 @@
-import requests
 import sqlite3
+
+import requests
 from aiogram import F, Router
 from aiogram.fsm.context import FSMContext
 from aiogram.fsm.state import State, StatesGroup
@@ -11,6 +12,7 @@ import app.keyboards.startkb as startkb
 
 router = Router()
 
+
 class ScoreManager:
     def __init__(self):
         self.points = 0
@@ -20,12 +22,15 @@ class ScoreManager:
 
     def get_points(self):
         return self.points
-    
+
+
 score = ScoreManager()
+
 
 class Prompt(StatesGroup):
     mode = State()
     text = State()
+
 
 def request_to_mistral(mode: str, text: str):
     templates = {
@@ -52,7 +57,7 @@ def request_to_mistral(mode: str, text: str):
             "If you find any problems, explain them in simple words and suggest how to make the prompt clearer or more helpful for completing the homework. "
             'If the prompt is already good, just say: "The prompt is of good quality, no improvements are needed." '
             "Do not invent flaws if there are none. Here is the text for analysis: {text}"
-        )
+        ),
     }
 
     if mode not in templates:
@@ -71,21 +76,27 @@ def request_to_mistral(mode: str, text: str):
     except Exception as e:
         return f"⚠️ Failed to connect to the AI model: {str(e)}"
 
+
 def init_db():
-    with sqlite3.connect('app/database/data.db') as conn:
+    with sqlite3.connect("app/database/data.db") as conn:
         cursor = conn.cursor()
-        cursor.execute("""
+        cursor.execute(
+            """
             CREATE TABLE IF NOT EXISTS History (
                 id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
                 mode TEXT NOT NULL,
                 prompt TEXT NOT NULL,
                 created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
             );
-        """)
+        """
+        )
+
 
 @router.message(F.text == "🧠 Prompt training")
 async def prompt_cmd(message: Message, state: FSMContext):
-    await message.answer(text="Choose the prompt type:", reply_markup=promptkb.promptButtons)
+    await message.answer(
+        text="Choose the prompt type:", reply_markup=promptkb.promptButtons
+    )
     await state.set_state(Prompt.mode)
 
 
@@ -115,12 +126,12 @@ async def handle_prompt(message: Message, state: FSMContext):
 
     init_db()
 
-    with sqlite3.connect('app/database/data.db') as conn:
+    with sqlite3.connect("app/database/data.db") as conn:
         cursor = conn.cursor()
         cursor.execute(
-            "INSERT INTO History (mode, prompt) VALUES (?, ?)",
-            (mode, user_text)
+            "INSERT INTO History (mode, prompt) VALUES (?, ?)", (mode, user_text)
         )
+
 
 @router.callback_query(F.data == "back_button")
 async def back_to_menu(callback: CallbackQuery):
