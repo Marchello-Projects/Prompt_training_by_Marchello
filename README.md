@@ -57,7 +57,7 @@ pip install -r requirements.txt
 Create a `.env` file in the root directory with the following content:
 
 ```env
-BOT_TOKEN=your_telegram_bot_token
+BOT_API_KEY=your_telegram_bot_token
 ```
 
 > You can get the bot token from [BotFather](https://t.me/BotFather)
