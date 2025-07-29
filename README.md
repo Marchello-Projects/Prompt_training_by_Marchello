@@ -2,6 +2,9 @@
 
 From beginner to AI whisperer — learn to craft powerful prompts and unlock the true potential of artificial intelligence. Your journey to prompt mastery starts here.
 
+> [!CAUTION]
+> To run the bot properly, at least 16 GB of RAM is recommended, since Mistral AI requires approximately 5 GB on its own.
+
 # Aiogram, SQLite, Ollama (Mistral AI)
 
 This project was built with the Aiogram framework, a powerful and modern tool for creating Telegram bots using Python.
