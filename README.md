@@ -72,7 +72,6 @@ If it doesn't exist yet, create the table manually:
 ```sql
 CREATE TABLE IF NOT EXISTS History (
 	id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
-	username TEXT NOT NULL,
 	mode TEXT NOT NULL,
 	prompt TEXT NOT NULL,
 	created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
