@@ -13,7 +13,7 @@ This project was built with the Aiogram framework, a powerful and modern tool fo
 
 SQLite serves as the primary database for this project, storing key information including user ID, prompt type, user-submitted prompts, and timestamps.
 
-<p align="center"><img src="./app/imgs/Screenshot%20From%202025-07-28%2023-44-50.png" width="200" /></p>
+<p align="center"><img src="./app/imgs/Screenshot%20From%202025-07-28%2023-44-50.png" width="500" /></p>
 
 The bot integrates Ollama to run the Mistral language model locally, allowing it to generate intelligent responses. Additionally, the bot can analyze and evaluate user prompts, providing feedback on their quality to help users improve their prompting skills
 
