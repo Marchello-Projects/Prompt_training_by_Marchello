@@ -63,6 +63,7 @@ Create a `.env` file in the root directory with the following content:
 BOT_API_KEY=your_telegram_bot_token
 ```
 
+> [!TIP]
 > You can get the bot token from [BotFather](https://t.me/BotFather)
 
 ### 5. Set up the SQLite database
