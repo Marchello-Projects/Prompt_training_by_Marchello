@@ -9,7 +9,7 @@ From beginner to AI whisperer — learn to craft powerful prompts and unlock the
 
 This project was built with the Aiogram framework, a powerful and modern tool for creating Telegram bots using Python.
 
-<p align="center"><img src="./app/imgs/logo.webp" width="200" /></p>
+<p align="center"><img src="./app/imgs/logo.webp"/></p>
 
 SQLite serves as the primary database for this project, storing key information including user ID, prompt type, user-submitted prompts, and timestamps.
 
