@@ -78,8 +78,8 @@ CREATE TABLE IF NOT EXISTS History (
 	created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 ```
-
-Or use the pre-existing `data.db` file located in `app/database/`.
+> [!NOTE]
+> Before executing SQL query. Create date.db in app/database/ folder.
 
 ### 6. Install and run Ollama with Mistral
 
