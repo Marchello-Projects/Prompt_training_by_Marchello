@@ -1,4 +1,4 @@
-![logo](./app/imgs/202507282312.gif)
+![logo](./app/imgs/Group%201%20copy.png)
 
 From beginner to AI whisperer — learn to craft powerful prompts and unlock the true potential of artificial intelligence. Your journey to prompt mastery starts here.
 
